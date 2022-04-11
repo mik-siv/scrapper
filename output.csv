@@ -1,0 +1,11 @@
+name,symbol,price,previousClosePrice,openPrice,daysRange,marketCap,circulatingSupply,link
+Bitcoin USD,BTC-USD,43573.09,"43,442.61","43,442.61","43,353.66 - 43,880.01",828.148B,19.006M,https://finance.yahoo.com/quote/BTC-USD?p=BTC-USD
+Ethereum USD,ETH-USD,3282.014,"3,228.62","3,228.62","3,220.54 - 3,300.83",394.798B,120.291M,https://finance.yahoo.com/quote/ETH-USD?p=ETH-USD
+Tether USD,USDT-USD,1.0003525,1.0003,1.0003,1.0002 - 1.0004,82.521B,82.492B,https://finance.yahoo.com/quote/USDT-USD?p=USDT-USD
+Binance Coin USD,BNB-USD,431.80334,436.25,436.25,430.31 - 440.52,71.298B,165.117M,https://finance.yahoo.com/quote/BNB-USD?p=BNB-USD
+USD Coin USD,USDC-USD,0.9992706,1.000208,1.000208,0.999247 - 1.000774,51.011B,51.048B,https://finance.yahoo.com/quote/USDC-USD?p=USDC-USD
+Solana USD,SOL-USD,118.64087,118.44,118.44,117.24 - 122.25,38.719B,326.353M,https://finance.yahoo.com/quote/SOL-USD?p=SOL-USD
+XRP USD,XRP-USD,0.78135115,0.786660,0.786660,0.780218 - 0.792977,37.611B,48.135B,https://finance.yahoo.com/quote/XRP-USD?p=XRP-USD
+Cardano USD,ADA-USD,1.0882379,1.0887,1.0887,1.0837 - 1.0974,36.731B,33.753B,https://finance.yahoo.com/quote/ADA-USD?p=ADA-USD
+Terra USD,LUNA1-USD,102.044136,103.43,103.43,102.03 - 106.45,36.212B,354.866M,https://finance.yahoo.com/quote/LUNA1-USD?p=LUNA1-USD
+HEX USD,HEX-USD,0.13832223,0.135716,0.135716,0.135393 - 0.139457,23.987B,173.411B,https://finance.yahoo.com/quote/HEX-USD?p=HEX-USD

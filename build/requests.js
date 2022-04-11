@@ -1,0 +1,7 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.reqPage = void 0;
+const axios_1 = require("axios");
+const reqPage = async (url) => await axios_1.default.get(url);
+exports.reqPage = reqPage;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVxdWVzdHMuanMiLCJzb3VyY2VSb290IjoiIiwic291cmNlcyI6WyIuLi9zcmMvcmVxdWVzdHMudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7O0FBQUEsaUNBQTZDO0FBRXRDLE1BQU0sT0FBTyxHQUFHLEtBQUssRUFBRyxHQUFXLEVBQTJCLEVBQUUsQ0FDdEUsTUFBTSxlQUFLLENBQUMsR0FBRyxDQUFDLEdBQUcsQ0FBQyxDQUFDO0FBRFQsUUFBQSxPQUFPLFdBQ0UiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgYXhpb3MsIHsgQXhpb3NSZXNwb25zZSB9IGZyb20gJ2F4aW9zJztcblxuZXhwb3J0IGNvbnN0IHJlcVBhZ2UgPSBhc3luYyAoIHVybDogc3RyaW5nICk6IFByb21pc2U8QXhpb3NSZXNwb25zZT4gPT5cblx0YXdhaXQgYXhpb3MuZ2V0KHVybCk7XG4iXX0=
