@@ -1,9 +1,6 @@
 import * as cheerio from 'cheerio';
-import { stringify as csvStringify } from 'csv-stringify';
-import * as fs from 'fs';
-
 import {reqPage} from './requests';
-import {CryptoRowData} from "./models";
+import {CryptoRowData, CryptoRow} from "./models";
 
 const scrape = async (url: string): Promise<void> => {
     let page
@@ -17,11 +14,22 @@ const scrape = async (url: string): Promise<void> => {
     }
 
     const $ = cheerio.load(page.data);
-
     const result: CryptoRowData[] = [];
-	//code here
-    //https://github.com/microsoft/TypeScript
-    //init typescript config file: npx tsc --init
+    $('tbody .simpTblRow').each((i, el) => {
+        let rawRowData: object = {}
+        let row: CryptoRow;
+        $(el).find("td").each((i, el) => {
+            let prop: string = $(el).attr("aria-label").toLocaleLowerCase()
+            rawRowData[prop] = $(el).text();
+        })
+            // for (const attribute of rawRowData) {
+            //
+            // }
+            result.push(rawRowData)
+    })
+
+    console.log(JSON.stringify(result))
+
 
     //1. read table rows
     //2. get data from every row

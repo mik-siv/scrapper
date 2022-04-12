@@ -8,7 +8,7 @@
  * export interface CryptoArr extends Array<Crypto>
  */
 
-interface CryptoRow{
+export interface CryptoRow{
     name: string;
     symbol: string;
     price: string;
