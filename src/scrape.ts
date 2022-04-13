@@ -6,26 +6,34 @@ const scrape = async (url: string): Promise<void> => {
     let page
     try {
         page = await reqPage(url);
-
     } catch (error) {
         // Optional: Wrap errors
         console.log(`Error: ${error}`);
         return;
     }
-
+    let columnNames: CryptoRow = {
+        name: "name",
+        symbol: "symbol",
+        circulatingSupply: "circulating supply",
+        daysRange: "day's range",
+        link: "link",
+        marketCap: "market cap",
+        openPrice: "open",
+        price: "price (intraday)",
+        previousClosePrice: "previous close"
+    }
     const $ = cheerio.load(page.data);
     const result: CryptoRowData[] = [];
     $('tbody .simpTblRow').each((i, el) => {
-        let rawRowData: object = {}
-        let row: CryptoRow;
+        let row: {} = {};
         $(el).find("td").each((i, el) => {
-            let prop: string = $(el).attr("aria-label").toLocaleLowerCase()
-            rawRowData[prop] = $(el).text();
+            for (const iter in columnNames) {
+                if ($(el).attr("aria-label")?.toLocaleLowerCase() === columnNames[iter]) {
+                    row[iter] = $(el).text();
+                }
+            }
         })
-            // for (const attribute of rawRowData) {
-            //
-            // }
-            result.push(rawRowData)
+        result.push(row)
     })
 
     console.log(JSON.stringify(result))
