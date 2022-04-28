@@ -5,7 +5,7 @@ import {CryptoRowData, CryptoRow} from "./models";
 const scrape = async (url: string): Promise<void> => {
     const baseUrl = 'https://finance.yahoo.com';
     let cryptoCurrenciesPage;
-    let loadPage = async (url) => {
+    let loadPage = async (url: string) => {
         let page
         try {
             page = await reqPage(url);
@@ -16,7 +16,7 @@ const scrape = async (url: string): Promise<void> => {
         }
         return page;
     }
-    let fillAdditionalData = (obj, pageData) => {
+    let fillAdditionalData = (obj: CryptoRow, pageData: cheerio.CheerioAPI) => {
         obj.previousClosePrice = pageData('#Main').find('[data-test="PREV_CLOSE-value"]').text()
         obj.openPrice = pageData('#Main').find('[data-test="OPEN-value"]').text()
         obj.daysRange = pageData('#Main').find('[data-test="DAYS_RANGE-value"]').text()
@@ -33,59 +33,39 @@ const scrape = async (url: string): Promise<void> => {
         previousClosePrice: "previous close"
     }
     cryptoCurrenciesPage = await loadPage(url)
+    if (!cryptoCurrenciesPage) {
+        console.error("Page doesn't exist");
+        return;
+    }
     const $ = cheerio.load(cryptoCurrenciesPage.data);
     const result: CryptoRowData[] = [];
-    // await $('tbody .simpTblRow').each(async (i, el) => {
-    //     let row: {} = {};
-    //     $(el).find("td").each((i, el) => {
-    //         for (const iter in columnNames) {
-    //             if ($(el).attr("aria-label")?.toLocaleLowerCase() === columnNames[iter]) {
-    //                 row[iter] = $(el).text();
-    //             }
-    //         }
-    //     })
-    //     let linkAddress = $(el).find('[data-test="quoteLink"]').attr("href");
-    //     row.link = baseUrl + linkAddress;
-    //     let subPage;
-    //     try {
-    //         subPage = await reqPage(row.link);
-    //     } catch (err) {
-    //         console.log(err);
-    //         return;
-    //     }
-    //     const pageData = cheerio.load(subPage.data)
-    //     row.previousClosePrice = pageData('#Main').find('[data-test="PREV_CLOSE-value"]').text()
-    //     row.openPrice = pageData('#Main').find('[data-test="OPEN-value"]').text()
-    //     row.daysRange = pageData('#Main').find('[data-test="DAYS_RANGE-value"]').text()
-    //     result.push(row)
-    //     console.log(result.length)
-    // })
-    // console.log(result.length)
 
-    let fillInTable = async function () {
-        return new Promise(resolve => {
-            await $('tbody .simpTblRow').each(async (i, el) => {
-                    let row = {};
-                    let subPage;
-                    $(el).find("td").each((i, el) => {
-                        for (const iter in columnNames) {
-                            if ($(el).attr("aria-label")?.toLocaleLowerCase() === columnNames[iter]) {
-                                row[iter] = $(el).text();
-                            }
-                        }
-                    })
-                    row.link = baseUrl + $(el).find('[data-test="quoteLink"]').attr("href");
-                    subPage = await loadPage(row.link)
-                    const pageData = cheerio.load(subPage.data)
-                    fillAdditionalData(row, pageData)
-                    result.push(row)
-                    console.log(result[i])
+    let elems = $('tbody .simpTblRow').get()
+    for (const el of elems) {
+        let row: CryptoRowData = new CryptoRowData('', '', '', '', '', '', '', '', '');
+        let subPage;
+        $(el).find("td").each((i, el) => {
+            for (const iter in columnNames) {
+                if (!columnNames.hasOwnProperty(iter)) {
+                    continue;
                 }
-            )
-            return resolve(result)
+                if ($(el).attr("aria-label")?.toLocaleLowerCase() === columnNames[iter]) {
+                    row[iter] = $(el).text();
+                }
+            }
         })
+        row.link = baseUrl + $(el).find('[data-test="quoteLink"]').attr("href");
+        subPage = await loadPage(row.link)
+        if (!subPage) {
+            console.error('no subpage found!')
+            continue;
+        }
+        const pageData = cheerio.load(subPage.data)
+        fillAdditionalData(row, pageData)
+        result.push(row)
     }
-    await fillInTable()
+
+    console.log(JSON.stringify(result, null, 4))
     //1. read table rows
     //2. get data from every row
     //3. request and parse detail view of every row
